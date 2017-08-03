@@ -38,3 +38,14 @@ public struct ES<Base> {
 extension UIScrollView: ESExtensionsProvider {}
 
 
+// MARK: - Localized
+
+func localizedString(_ key: String) -> String {
+    if let path = Bundle(for: ESRefreshHeaderAnimator.self).resourcePath,
+        let resourceBundle = Bundle(path: path + "/Localization.bundle") {
+        return resourceBundle.localizedString(forKey: key, value: nil, table: "Localizable")
+    }
+    return key
+}
+
+

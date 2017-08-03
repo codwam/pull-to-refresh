@@ -28,24 +28,15 @@ import Foundation
 import QuartzCore
 import UIKit
 
-func localizedString(_ key: String) -> String {
-    if let path = Bundle(for: ESRefreshHeaderAnimator.self).resourcePath,
-        let resourceBundle = Bundle(path: path + "/Localization.bundle") {
-        return resourceBundle.localizedString(forKey: key, value: nil, table: "Localizable")
-    }
-    return key
-}
-
 open class ESRefreshHeaderAnimator: UIView, ESRefreshProtocol, ESRefreshAnimatorProtocol, ESRefreshImpactProtocol {
-    open var pullToRefreshDescription = NSLocalizedString("Pull to refresh", comment: "") {
+    open var pullToRefreshDescription = localizedString("Pull to refresh") {
         didSet {
             if pullToRefreshDescription != oldValue {
                 titleLabel.text = pullToRefreshDescription;
             }
         }
     }
-    open var releaseToRefreshDescription = NSLocalizedString("Release to refresh", comment: "")
-//    open var loadingDescription = NSLocalizedString("Loading...", comment: "")
+    open var releaseToRefreshDescription = localizedString("Release to refresh")
     open var loadingDescription = localizedString("Loading...")
 
     open var view: UIView { return self }
@@ -55,12 +46,6 @@ open class ESRefreshHeaderAnimator: UIView, ESRefreshProtocol, ESRefreshAnimator
     open var state: ESRefreshViewState = .pullToRefresh
 
     fileprivate let imageView: UIImageView = {
-        let loadingDescription = NSLocalizedString("Loading...", comment: "")
-        print("loadingDescription: \(loadingDescription)")
-        
-        let loadingDescription1 = localizedString("Loading...")
-        print("loadingDescription1: \(loadingDescription1)")
-        
         let imageView = UIImageView.init()
         if /* Carthage */ let bundle = Bundle.init(identifier: "com.eggswift.ESPullToRefresh") {
             imageView.image = UIImage(named: "icon_pull_to_refresh_arrow", in: bundle, compatibleWith: nil)
