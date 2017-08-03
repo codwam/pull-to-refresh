@@ -221,9 +221,9 @@ open class ESRefreshHeaderView: ESRefreshComponent {
     open override func didMoveToSuperview() {
         super.didMoveToSuperview()
         DispatchQueue.main.async {
-            [unowned self] in
-            self.scrollViewBounces = self.scrollView?.bounces ?? true
-            self.scrollViewInsets = self.scrollView?.contentInset ?? UIEdgeInsets.zero
+            [weak self] in
+            self?.scrollViewBounces = self?.scrollView?.bounces ?? true
+            self?.scrollViewInsets = self?.scrollView?.contentInset ?? UIEdgeInsets.zero
         }
     }
     
@@ -396,12 +396,15 @@ open class ESRefreshFooterView: ESRefreshComponent {
     open override func didMoveToSuperview() {
         super.didMoveToSuperview()
         DispatchQueue.main.async {
-            [unowned self] in
-            self.scrollViewInsets = self.scrollView?.contentInset ?? UIEdgeInsets.zero
-            self.scrollView?.contentInset.bottom = self.scrollViewInsets.bottom + self.bounds.size.height
-            var rect = self.frame
-            rect.origin.y = self.scrollView?.contentSize.height ?? 0.0
-            self.frame = rect
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.scrollViewInsets = strongSelf.scrollView?.contentInset ?? UIEdgeInsets.zero
+            strongSelf.scrollView?.contentInset.bottom = strongSelf.scrollViewInsets.bottom + strongSelf.bounds.size.height
+            var rect = strongSelf.frame
+            rect.origin.y = strongSelf.scrollView?.contentSize.height ?? 0.0
+            strongSelf.frame = rect
         }
     }
  

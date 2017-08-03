@@ -14,6 +14,14 @@ class WebViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var webViewXib: UIWebView!
     var webView: UIWebView!
     
+    init() {
+        super.init(nibName: String(describing: type(of: self)), bundle: Bundle.main)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
