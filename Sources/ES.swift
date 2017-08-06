@@ -42,7 +42,7 @@ extension UIScrollView: ESExtensionsProvider {}
 
 func localizedString(_ key: String) -> String {
     if let path = Bundle(for: ESRefreshHeaderAnimator.self).resourcePath,
-        let resourceBundle = Bundle(path: path + "/Localization.bundle") {
+        let resourceBundle = Bundle(path: path + "/ESPullToRefreshLocalization.bundle") {
         return resourceBundle.localizedString(forKey: key, value: nil, table: "Localizable")
     }
     return key
