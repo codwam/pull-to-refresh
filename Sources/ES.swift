@@ -48,4 +48,11 @@ func localizedString(_ key: String) -> String {
     return key
 }
 
+// MARK: - Debug print
+
+func esPrint(_ items: Any...) {
+//    print(items)
+}
+
+
 

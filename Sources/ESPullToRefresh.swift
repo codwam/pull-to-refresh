@@ -280,14 +280,17 @@ open class ESRefreshHeaderView: ESRefreshComponent {
         }
         
         previousOffset = scrollView.contentOffset.y
-        
+        esPrint("++++ previousOffset: \(previousOffset) ++++")
+        esPrint("++++ scrollViewInsets: \(scrollViewInsets) ++++")
     }
     
     open override func start() {
         guard let scrollView = scrollView else {
             return
         }
-        
+        esPrint("---- \(scrollView) -----")
+        esPrint("---- Refresh \(#function) -----")
+
         // ignore observer
         self.ignoreObserver(true)
         
@@ -304,13 +307,21 @@ open class ESRefreshHeaderView: ESRefreshComponent {
         var insets = scrollView.contentInset
         self.scrollViewInsets.top = insets.top
         insets.top += animator.executeIncremental
-        
+        esPrint("insets: \(insets)")
+        esPrint("previousOffset: \(previousOffset)")
+
         // We need to restore previous offset because we will animate scroll view insets and regular scroll view animating is not applied then.
         scrollView.contentInset = insets
         scrollView.contentOffset.y = previousOffset
         previousOffset -= animator.executeIncremental
+        esPrint("previousOffset Update: \(previousOffset)")
+        esPrint("scrollView.contentInset: \(scrollView.contentInset)")
+        esPrint("scrollView.contentOffset: \(scrollView.contentOffset)")
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveLinear, animations: {
             scrollView.contentOffset.y = -insets.top
+            esPrint("Completion scrollView.contentInset: \(scrollView.contentInset)")
+            esPrint("Completion scrollView.contentOffset: \(scrollView.contentOffset)")
+            esPrint("Completion \(scrollView)")
         }, completion: { (finished) in
             self.handler?()
             // un-ignore observer
@@ -324,7 +335,9 @@ open class ESRefreshHeaderView: ESRefreshComponent {
         guard let scrollView = scrollView else {
             return
         }
-        
+        esPrint("---- \(scrollView) -----")
+        esPrint("---- Refresh \(#function) -----")
+
         // ignore observer
         self.ignoreObserver(true)
         
@@ -333,13 +346,21 @@ open class ESRefreshHeaderView: ESRefreshComponent {
         // Back state
         scrollView.contentInset.top = self.scrollViewInsets.top
         scrollView.contentOffset.y =  self.scrollViewInsets.top + self.previousOffset
+        esPrint("previousOffset: \(previousOffset)")
+        esPrint("scrollView.contentInset: \(scrollView.contentInset)")
+        esPrint("scrollView.contentOffset: \(scrollView.contentOffset)")
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear, animations: {
             scrollView.contentOffset.y = -self.scrollViewInsets.top
+            esPrint("Animate scrollView.contentOffset: \(scrollView.contentOffset)")
             }, completion: { (finished) in
                 self.animator.refresh(view: self, stateDidChange: .pullToRefresh)
                 super.stop()
                 scrollView.contentInset.top = self.scrollViewInsets.top
                 self.previousOffset = scrollView.contentOffset.y
+                esPrint("Completion previousOffset: \(self.previousOffset)")
+                esPrint("Completion scrollView.contentInset: \(scrollView.contentInset)")
+                esPrint("Completion scrollView.contentOffset: \(scrollView.contentOffset)")
+                esPrint("Completion \(scrollView)")
                 // un-ignore observer
                 self.ignoreObserver(false)
         })

@@ -71,7 +71,7 @@ open class ESRefreshFooterAnimator: UIView, ESRefreshProtocol, ESRefreshAnimator
     
     open func refreshAnimationEnd(view: ESRefreshComponent) {
         indicatorView.stopAnimating()
-        titleLabel.text = loadingMoreDescription
+        titleLabel.text = state == .noMoreData ? noMoreDataDescription : loadingMoreDescription
         indicatorView.isHidden = true
     }
     
